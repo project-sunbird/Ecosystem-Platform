@@ -69,10 +69,11 @@ job_config:
   es_dialCode_indexer_path: "{{ content_snapshot_path }}/config/DialcodeRedisIndexer.conf"
   device_profile_path: "{{ content_snapshot_path }}/config/DeviceProfile.conf"
   cassandra_redis_path: "{{ content_snapshot_path }}/config/cassandraRedis.conf"
+  groups_tables_migration_path: "{{ content_snapshot_path }}/config/GroupsTablesMigration.conf"
 
 output_file_path: "{{ content_snapshot_path }}/compositeSearchBatchData"
-config_files: ["application","cassandraRedis","DeviceProfile","ESCloudUploader","ESContentIndexer","DialcodeRedisIndexer"]
-script_files: ["DeviceProfileScripts","DruidContentIndexer","RedisContentIndexer","RedisDialcodeIndexer","RedisUserDataIndexer","run-script"]
+config_files: ["application","cassandraRedis","DeviceProfile","ESCloudUploader","ESContentIndexer","DialcodeRedisIndexer","GroupsTablesMigration"]
+script_files: ["GroupsTablesMigrationScripts","DeviceProfileScripts","DruidContentIndexer","RedisContentIndexer","RedisDialcodeIndexer","RedisUserDataIndexer","run-script"]
 
 
 
