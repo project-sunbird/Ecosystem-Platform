@@ -31,6 +31,16 @@
       when: not hostvars['localhost']['single_cluster']
     - role: druid-ingestion
       vars:
+        ingestion_task_names: "{{ raw_ingestion_task_names }}"
+        overlord_host: "{{ raw_overlord_host }}"
+      when: hostvars['localhost']['single_cluster'] and raw_ingestion_task_names | length > 0 and rollup_ingestion_task_names | length == 0
+    - role: druid-ingestion
+      vars:
+        ingestion_task_names: "{{ rollup_ingestion_task_names }}"
+        overlord_host: "{{ raw_overlord_host }}"
+      when: hostvars['localhost']['single_cluster'] and raw_ingestion_task_names | length == 0 and rollup_ingestion_task_names | length > 0
+    - role: druid-ingestion
+      vars:
         ingestion_task_names: "{{ raw_ingestion_task_names }},{{ rollup_ingestion_task_names }}"
         overlord_host: "{{ raw_overlord_host }}"
-      when: hostvars['localhost']['single_cluster']
+      when: hostvars['localhost']['single_cluster'] and raw_ingestion_task_names | length > 0 and rollup_ingestion_task_names | length > 0
