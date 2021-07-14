@@ -56,6 +56,9 @@ config() {
 		"progress-exhaust")
 		echo '{"search":{"type":"none"},"model":"org.sunbird.analytics.exhaust.collection.ProgressExhaustJob","modelParams":{"store":"azure","mode":"OnDemand","batchFilters":["TPD"],"searchFilter":{}, "sparkElasticsearchConnectionHost":"{{ sunbird_es_host }}","sparkRedisConnectionHost":"{{ metadata2_redis_host }}","sparkUserDbRedisIndex":"12","sparkUserDbRedisPort":"{{ user_port }}", "sparkCassandraConnectionHost":"{{ core_cassandra_host }}", "fromDate":"$(date --date yesterday '+%Y-%m-%d')","toDate":"$(date --date yesterday '+%Y-%m-%d')"},"parallelization":8,"appName":"Progress Exhaust"}'
 		;;
+		"progress-exhaust-v2")
+		echo '{"search":{"type":"none"},"model":"org.sunbird.analytics.exhaust.collection.ProgressExhaustJobV2","modelParams":{"store":"azure","mode":"OnDemand","batchFilters":["TPD"],"searchFilter":{}, "sparkElasticsearchConnectionHost":"{{ sunbird_es_host }}","sparkRedisConnectionHost":"{{ metadata2_redis_host }}","sparkUserDbRedisIndex":"12","sparkUserDbRedisPort":"{{ user_port }}", "sparkCassandraConnectionHost":"{{ core_cassandra_host }}", "fromDate":"$(date --date yesterday '+%Y-%m-%d')","toDate":"$(date --date yesterday '+%Y-%m-%d')"},"parallelization":8,"appName":"Progress Exhaust V2"}'
+		;;
 		"druid_reports")
 		echo '{"search":{"type":"none"},"model":"org.ekstep.analytics.model.DruidQueryProcessingModel","modelParams":{"mode":"batch"},"parallelization":8,"appName":"Druid Reports"}'
 		;;
