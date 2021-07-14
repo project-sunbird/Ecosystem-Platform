@@ -32,6 +32,9 @@ config() {
         "assessment-correction")
          echo '{"search":{"type":"azure","queries":[{"bucket":"'$bucket'","prefix":"unique/raw/","endDate":"'$endDate'","delta":0}]},"model":"org.sunbird.analytics.model.report.AssessmentCorrectionModel","modelParams":{"parallelization":200,"druidConfig":{"queryType":"groupBy","dataSource":"content-model-snapshot","intervals":"1901-01-01T00:00:00+00:00/2101-01-01T00:00:00+00:00","granularity":"all","aggregations":[{"name":"count","type":"count","fieldName":"count"}],"dimensions":[{"fieldName":"identifier","aliasName":"identifier"}],"filters":[{"type":"equals","dimension":"contentType","value":"SelfAssess"}],"descending":"false"},"fileOutputConfig":{"to":"file","params":{"file":"{{ analytics.home }}/assessment-correction/skippedEvents"}},"sparkCassandraConnectionHost":"'$sunbirdPlatformCassandraHost'"},"output":[{"to":"kafka","params":{"brokerList":"'$brokerIngestionList'","topic":"'$assessTopic'"}}],"parallelization":200,"appName":"Assessment Correction Model"}'
          ;;
+	    "assessment-archival")
+	    echo '{"search":{"type":"none"},"model":"org.sunbird.analytics.job.report.AssessmentArchivalJob","modelParams":{"truncateData":true,"store":"azure","sparkCassandraConnectionHost":"{{ core_cassandra_host }}","fromDate":"$(date --date yesterday '+%Y-%m-%d')","toDate":"$(date --date yesterday '+%Y-%m-%d')"},"parallelization":8,"appName":"Assessment Archival Job"}'
+	    ;;
         "collection-reconciliation-job")
 		echo '{"search":{"type":"none"},"model":"org.sunbird.analytics.audit.CollectionReconciliationJob","modelParams":{"mode":"prodrun","brokerList":"{{ingestion_kafka_broker_host}}","topic":"{{env}}.issue.certificate.request","sparkCassandraConnectionHost":"{{ core_cassandra_host }}"},"parallelization":30,"appName":"CollectionReconciliationJob"}'
 		;;
