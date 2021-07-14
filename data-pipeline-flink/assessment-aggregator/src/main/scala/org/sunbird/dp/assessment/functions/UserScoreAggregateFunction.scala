@@ -38,14 +38,15 @@ class UserScoreAggregateFunction(config: AssessmentAggregatorConfig,
         super.close()
     }
 
-    def getBestScore(event: Event) = {
-        val query = QueryBuilder.select().column("content_id").max("total_score").as("score").from(config.dbKeyspace, config.dbTable)
+    def getBestScore(event: Event): Map[String, Int] = {
+        val query = QueryBuilder.select().column("content_id").max("total_score").as("score").column("total_max_score").from(config.dbKeyspace, config.dbTable)
           .where(QueryBuilder.eq("course_id", event.courseId)).and(QueryBuilder.eq("batch_id", event.batchId))
           .and(QueryBuilder.eq("user_id", event.userId)).groupBy("user_id", "course_id", "batch_id", "content_id")
-        val rows: java.util.List[Row] = cassandraUtil.find(query.toString);
+        val rows: java.util.List[Row] = cassandraUtil.find(query.toString)
         if (null != rows && !rows.isEmpty) {
-            rows.asScala.toList.map(row => {
-                "score:" + row.getString("content_id") -> row.getDouble("score").toInt
+            rows.asScala.toList.flatMap(row => {
+                Map(s"score:${row.getString("content_id")}" -> row.getDouble("score").toInt,
+                    s"max_score:${row.getString("content_id")}" -> row.getDouble("total_max_score").toInt)
             }).toMap
         } else Map[String, Int]()
     }

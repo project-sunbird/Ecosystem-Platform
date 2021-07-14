@@ -105,9 +105,22 @@ class AssessmentAggregatorTaskTestSpec extends BaseTestSpec {
     assert(test_row2.getDouble("total_max_score") == 4.0)
 
     val test_row3 = cassandraUtil.findOne("select agg from sunbird_courses.user_activity_agg where activity_type='Course' and activity_id='do_2128410273679114241112' and  user_id='d0d8a341-9637-484c-b871-0c27015af238'")
-    val resultMap = test_row3.getMap("agg", new TypeToken[String]() {}, new TypeToken[Integer]() {})
-    assert(null != resultMap)
-    assert(2 == resultMap.getOrDefault("score:do_2128373396098744321673", 0))
+    val resultMap3 = test_row3.getMap("agg", new TypeToken[String]() {}, new TypeToken[Integer]() {})
+    assert(null != resultMap3)
+    assert(2 == resultMap3.getOrDefault("score:do_2128373396098744321673", 0))
+    assert(2 == resultMap3.getOrDefault("max_score:do_2128373396098744321673", 0))
+
+    val test_row4 = cassandraUtil.findOne("select agg from sunbird_courses.user_activity_agg where activity_type='Course' and activity_id='do_2128415652377067521125' and  user_id='ff1c4bdf-27e2-49bc-a53f-6e304bb3a87f'")
+    val resultMap4 = test_row4.getMap("agg", new TypeToken[String]() {}, new TypeToken[Integer]() {})
+    assert(null != resultMap4)
+    assert(3 == resultMap4.getOrDefault("score:do_212686723743318016173", 0))
+    assert(4 == resultMap4.getOrDefault("max_score:do_212686723743318016173", 0))
+
+    val test_row5 = cassandraUtil.findOne("select agg from sunbird_courses.user_activity_agg where activity_type='Course' and activity_id='do_3129323995959541761169' and  user_id='50a9e3fc-d047-4fa5-a37b-67501b8933db'")
+    val resultMap5 = test_row5.getMap("agg", new TypeToken[String]() {}, new TypeToken[Integer]() {})
+    assert(null != resultMap5)
+    assert(1 == resultMap5.getOrDefault("score:do_3129323935897108481169", 0))
+    assert(1 == resultMap5.getOrDefault("max_score:do_3129323935897108481169", 0))
   }
 
   def testCassandraUtil(cassandraUtil: CassandraUtil): Unit = {
