@@ -38,6 +38,9 @@ config() {
 		"collection-summary-report")
 		echo '{"search":{"type":"none"},"model":"org.sunbird.analytics.job.report.CollectionSummaryJob","modelParams":{"searchFilter":{"request":{"filters":{"status":["Live"], "contentType": "Course"},"fields":["identifier","name","organisation","channel"],"limit":10000}},"store":"azure","sparkElasticsearchConnectionHost":"{{ sunbird_es_host }}","sparkRedisConnectionHost":"{{ metadata2_redis_host }}","sparkUserDbRedisIndex":"12","sparkUserDbRedisPort":"{{ user_port }}","sparkCassandraConnectionHost":"{{ core_cassandra_host }}","fromDate":"$(date --date yesterday '+%Y-%m-%d')","toDate":"$(date --date yesterday '+%Y-%m-%d')"},"parallelization":8,"appName":"Collection Summary Report"}'
 		;;
+		"score-metric-migration-job")
+		echo '{"search":{"type":"none"},"model":"org.sunbird.analytics.audit.ScoreMetricMigrationJob","modelParams":{"sparkCassandraConnectionHost":"{{ core_cassandra_host }}","fromDate":"$(date --date yesterday '+%Y-%m-%d')","toDate":"$(date --date yesterday '+%Y-%m-%d')"},"parallelization":8,"appName":"Score Metric Migration Job"}'
+		;;
 		"course-batch-status-updater")
 		echo '{"search":{"type":"none"},"model":"org.sunbird.analytics.audit.CourseBatchStatusUpdaterJob","modelParams":{"store":"azure","sparkElasticsearchConnectionHost":"http://{{ single_node_es_host }}:9200","sparkCassandraConnectionHost":"{{ core_cassandra_host }}","kpLearningBasePath":"http://{{groups['learning'][0]}}:8080/learning-service","fromDate":"$(date --date yesterday '+%Y-%m-%d')","toDate":"$(date --date yesterday '+%Y-%m-%d')"},"parallelization":8,"appName":"Course Batch Status Updater Job"}'
 		;;
